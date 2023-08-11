@@ -1,0 +1,16 @@
+{
+  "name": "file-upload-app",
+  "version": "1.0.0",
+  "description": "Node.js application for uploading and echoing files",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.0.0"
+  }
+}
+
