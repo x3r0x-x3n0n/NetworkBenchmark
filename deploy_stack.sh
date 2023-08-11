@@ -8,8 +8,8 @@ PREFIX="192.168.1"	# network prefix
 # Destroy residuals
 docker kill $(docker ps -q --filter "name=requester")
 docker kill $(docker ps -q --filter "name=responder") 
-docker container rm $(sudo docker container ls -a --filter "name=requester" --format '{{.ID}}')
-docker container rm $(sudo docker container ls -a --filter "name=responder" --format '{{.ID}}')
+docker container rm $(docker container ls -a --filter "name=requester" --format '{{.ID}}')
+docker container rm $(docker container ls -a --filter "name=responder" --format '{{.ID}}')
 
 # Build new
 docker network create -d macvlan --subnet=$PREFIX.0/24 --gateway=$PREFIX.1 -o parent=$INT mymacvlan
@@ -32,7 +32,7 @@ for ((i=$START;i<=$LIMIT;i++)); do
 		PORT="90${i}"
 	fi
 	CONTAINER_NAME="-${i}"
-	docker run -d --network mymacvlan --name responder$CONTAINER_NAME --ip $IP -e PORT=$PORT responder
+	docker run -d --name responder$CONTAINER_NAME --ip $IP -e PORT=$PORT responder
 done
 
 # Deploy requesters
@@ -49,6 +49,6 @@ for ((i=$START;i<=$LIMIT;i++)); do
 		PORT="90${i}"
 	fi
 	CONTAINER_NAME="-${i}"
-	docker run -d --network mymacvlan --name requester$CONTAINER_NAME --ip $IP -e TARGET_URL=$TARGET_URL/echo requester
+	docker run -d --name requester$CONTAINER_NAME --ip $IP -e TARGET_URL=$TARGET_URL/echo requester
 done
 
